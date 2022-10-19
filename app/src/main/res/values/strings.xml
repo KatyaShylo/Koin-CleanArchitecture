@@ -1,3 +1,30 @@
 <resources>
     <string name="app_name">My Kinopoisk</string>
+    <string name="menu_bottom_actors">Actors</string>
+    <string name="menu_bottom_movies">movies</string>
+    <string name="menu_bottom_favorites">favorites</string>
+    <string name="menu_toolbar_search">Search</string>
+    <string name="movie_information">Movie information</string>
+    <string name="menu_toolbar_favorite">Favorite</string>
+    <string name="note_movie">Note-movie</string>
+    <string name="add_note">add note</string>
+    <string name="note">note</string>
+    <string name="ok">OK</string>
+    <string name="kp">kp:</string>
+    <string name="make_note">Make note</string>
+    <string name="movie_comment">Movie comment</string>
+    <string name="validator_error_not_null">Use only letters, numbers, punctuation</string>
+    <string name="validator_error_null">Field is empty</string>
+    <string name="title_dialog_incorrect_entry">Incorrect data entry</string>
+    <string name="message_dialog_incorrect_entry">Please, check the data entry!</string>
+    <string name="title_dialog_successful">Successful addition</string>
+    <string name="title_dialog_delete_note">Delete note</string>
+    <string name="message_dialog_delete">Are you sure you want to delete?</string>
+    <string name="toast_text_delete">Note has been deleted</string>
+    <string name="toast_text_not_delete">Note nas not been deleted</string>
+    <string name="title_dialog_delete_favorite">Delete favorite</string>
+    <string name="toast_text_delete_favorite">Favorite has been deleted</string>
+    <string name="toast_text_not_delete_favorite">Favorite nas not been deleted</string>
+    <string name="add_favorite">Save?</string>
+    <string name="add_message_favorite">Save to favorites?</string>
 </resources>
