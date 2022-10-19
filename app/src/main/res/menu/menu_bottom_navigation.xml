@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/fragment_my_notes_movie"
+        android:icon="@drawable/ic_baseline_edit_note_24"
+        android:title="@string/note" />
+
+    <item
+        android:id="@+id/fragment_movies"
+        android:icon="@drawable/ic_baseline_local_movies_24"
+        android:title="@string/menu_bottom_movies" />
+
+    <item
+        android:id="@+id/fragment_favorites"
+        android:icon="@drawable/ic_baseline_favorite_24"
+        android:title="@string/menu_bottom_favorites" />
+
+</menu>
