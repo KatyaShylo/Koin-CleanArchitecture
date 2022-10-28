@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -14,8 +17,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mykinopoisk.R
 import com.example.mykinopoisk.databinding.FragmentMyNoteMovieBinding
+import com.example.mykinopoisk.domain.model.note.Note
 import com.example.mykinopoisk.presentation.model.LceState
-import com.example.mykinopoisk.presentation.ui.adapter.NoteAdapter
+import com.example.mykinopoisk.presentation.ui.movie.adapter.NoteAdapter
 import com.example.mykinopoisk.presentation.ui.extension.SwipeElement
 import com.example.mykinopoisk.presentation.ui.extension.addHorizontalSpaceDecoration
 import kotlinx.coroutines.flow.launchIn
@@ -52,8 +56,8 @@ class NoteFragment : Fragment() {
                 it.findNavController().navigate(NoteFragmentDirections.toAddNoteFragment())
             }
 
-            recyclerViewMovies.adapter = adapter
-            recyclerViewMovies.addHorizontalSpaceDecoration(R.dimen.space_horizontal_decorator)
+            recyclerViewNote.adapter = adapter
+            recyclerViewNote.addHorizontalSpaceDecoration(R.dimen.space_horizontal_decorator)
 
             viewModel
                 .lce
@@ -78,38 +82,65 @@ class NoteFragment : Fragment() {
                     val noteToDel = adapter.currentList[viewHolder.adapterPosition]
                     viewLifecycleOwner.lifecycleScope.launch {
 
-                        AlertDialog.Builder(requireContext())
-                            .setTitle(context?.resources?.getString(R.string.title_dialog_delete_note))
-                            .setMessage(context?.resources?.getString(R.string.message_dialog_delete))
-                            .setPositiveButton(android.R.string.ok) { _, _ ->
-                                viewModel.onNoteSwipe(noteToDel)
-                                Toast.makeText(
-                                    requireContext(),
-                                    context?.resources?.getString(R.string.toast_text_delete),
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
-                            }
-                            .setNegativeButton(android.R.string.cancel) { dialog, _ ->
-                                adapter.notifyDataSetChanged()
-                                Toast.makeText(
-                                    requireContext(),
-                                    context?.resources?.getString(R.string.toast_text_not_delete),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                dialog.cancel()
-                            }
-                            .show()
+                       showAlertDialog(noteToDel)
                     }
                 }
             }
-            ItemTouchHelper(swipeToDeleteCallback).attachToRecyclerView(binding.recyclerViewMovies)
+            ItemTouchHelper(swipeToDeleteCallback).attachToRecyclerView(binding.recyclerViewNote)
         }
+        createWindowInsets()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showAlertDialog(note: Note){
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.title_dialog_delete_note)
+            .setMessage(R.string.message_dialog_delete)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                viewModel.onNoteSwipe(note)
+                Toast.makeText(
+                    requireContext(),
+                   R.string.toast_text_delete,
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
+            .setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                adapter.notifyDataSetChanged()
+                Toast.makeText(
+                    requireContext(),
+                   R.string.toast_text_not_delete,
+                    Toast.LENGTH_SHORT
+                ).show()
+                dialog.cancel()
+            }
+            .show()
+    }
+
+    private fun createWindowInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbarFragmentNote) { _, insets ->
+            val systemBarInset = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            binding.toolbarFragmentNote.updatePadding(
+                top = systemBarInset.top,
+                left = systemBarInset.left,
+                right = systemBarInset.right
+            )
+            insets
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerViewNote) { _, insets ->
+            val systemBarInset = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            binding.recyclerViewNote.updatePadding(
+                bottom = systemBarInset.bottom,
+                right = systemBarInset.right,
+                left = systemBarInset.left
+            )
+            insets
+        }
     }
 }
 

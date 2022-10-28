@@ -1,11 +1,15 @@
 package com.example.mykinopoisk.presentation.ui.movie
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -39,6 +43,7 @@ class MovieDetailFragment : Fragment() {
             .also { _binding = it }
             .root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -76,10 +81,23 @@ class MovieDetailFragment : Fragment() {
                     }
                 }.launchIn(viewLifecycleOwner.lifecycleScope)
         }
+        createWindowInsets()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun createWindowInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbarFragmentDetailMovie) { _, insets ->
+            val systemBarInset = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            binding.toolbarFragmentDetailMovie.updatePadding(
+                top = systemBarInset.top,
+                left = systemBarInset.left,
+                right = systemBarInset.right
+            )
+            insets
+        }
     }
 }

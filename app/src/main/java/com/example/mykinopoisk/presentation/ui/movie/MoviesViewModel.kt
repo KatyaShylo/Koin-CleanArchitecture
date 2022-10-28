@@ -3,22 +3,18 @@ package com.example.mykinopoisk.presentation.ui.movie
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mykinopoisk.domain.model.favorite.Favorite
-import com.example.mykinopoisk.domain.usecase.favorite.InsertFavoriteUseCase
-import com.example.mykinopoisk.domain.usecase.movie.GetAllMoviesFromDatabaseUseCase
-import com.example.mykinopoisk.domain.usecase.movie.GetAllMoviesUseCase
-import com.example.mykinopoisk.domain.usecase.movie.InsertMoviesInDatabaseUseCase
-import com.example.mykinopoisk.presentation.constants.Constants
+import com.example.mykinopoisk.domain.repository.favorite.FavoriteLocalRepository
+import com.example.mykinopoisk.domain.repository.movie.MovieLocalRepository
+import com.example.mykinopoisk.domain.repository.movie.MovieRepository
 import com.example.mykinopoisk.presentation.model.LceState
 import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class MoviesViewModel(
-    private val getAllMoviesUseCase: GetAllMoviesUseCase,
-    private val getAllMoviesFromDatabaseUseCase: GetAllMoviesFromDatabaseUseCase,
-    private val insertMoviesInDatabaseUseCase: InsertMoviesInDatabaseUseCase,
-    private val insertFavoriteUseCase: InsertFavoriteUseCase
+    private val movieRepository: MovieRepository,
+    private val movieLocalRepository: MovieLocalRepository,
+    private val favoriteLocalRepository: FavoriteLocalRepository
 ) : ViewModel() {
 
     private val refreshFlow = MutableSharedFlow<Unit>(
@@ -31,15 +27,9 @@ class MoviesViewModel(
 
     val dataFlow = queryFlow.combine(
         refreshFlow.map {
-            delay(2000)
             runCatching {
-                getAllMoviesUseCase.invoke(
-                    Constants.TOKEN,
-                    Constants.LIMIT,
-                    Constants.FIELD_YEAR,
-                    Constants.SEARCH_YEAR,
-                    Constants.FIELD_RATING,
-                    Constants.SEARCH_RATING
+                movieRepository.getMovies(
+                    TOKEN, LIMIT, FIELD_YEAR, SEARCH_YEAR, FIELD_RATING, SEARCH_RATING
                 )
             }.onSuccess { LceState.Success(it) }
                 .onFailure { LceState.Fail(it) }
@@ -48,13 +38,13 @@ class MoviesViewModel(
         result.map {
             it.map { it.listMovie.filter { it.name.contains(query, ignoreCase = true) } }.fold(
                 onSuccess = {
-                    insertMoviesInDatabaseUseCase.invoke(it)
+                    movieLocalRepository.insertMoviesInDatabase(it)
                     LceState.Success(it)
                 }, onFailure = { LceState.Fail(it) }
             )
         }
     }.onStart {
-        val storedList = getAllMoviesFromDatabaseUseCase.invoke()
+        val storedList = movieLocalRepository.getAllMoviesFromDatabase()
         val state = if (storedList.isNotEmpty()) {
             LceState.Success(storedList)
         } else {
@@ -79,7 +69,17 @@ class MoviesViewModel(
         onRefreshed()
     }
 
-    fun onSwipeMovie(favorite: Favorite) = viewModelScope.launch {
-        insertFavoriteUseCase.invoke(favorite)
+    fun onSwipeMovie(favorite: Favorite) =
+        viewModelScope.launch {
+            favoriteLocalRepository.insertFavorite(favorite)
+        }
+
+    companion object {
+        private const val TOKEN = "PR0J8XR-XTCM5Y8-P3RHWPK-WYEKR6W"
+        private const val LIMIT = "50"
+        private const val FIELD_YEAR = "year"
+        private const val SEARCH_YEAR = "2019-2022"
+        private const val FIELD_RATING = "rating.kp"
+        private const val SEARCH_RATING = "8-10"
     }
 }

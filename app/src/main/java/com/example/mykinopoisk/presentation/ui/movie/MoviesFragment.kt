@@ -2,12 +2,16 @@ package com.example.mykinopoisk.presentation.ui.movie
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -18,7 +22,7 @@ import com.example.mykinopoisk.R
 import com.example.mykinopoisk.databinding.FragmentMoviesBinding
 import com.example.mykinopoisk.domain.model.favorite.Favorite
 import com.example.mykinopoisk.presentation.model.LceState
-import com.example.mykinopoisk.presentation.ui.adapter.MovieAdapter
+import com.example.mykinopoisk.presentation.ui.movie.adapter.MovieAdapter
 import com.example.mykinopoisk.presentation.ui.extension.SwipeElement
 import com.example.mykinopoisk.presentation.ui.extension.addHorizontalSpaceDecoration
 import kotlinx.coroutines.flow.launchIn
@@ -135,12 +139,35 @@ class MoviesFragment : Fragment() {
                     }
                 }
             }
-            ItemTouchHelper(swipeToFavorite).attachToRecyclerView(binding.recyclerViewMovies)
+            ItemTouchHelper(swipeToFavorite).attachToRecyclerView(recyclerViewMovies)
         }
+        createWindowInsets()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun createWindowInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbarFragmentMovies) { _, insets ->
+            val systemBarInset = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            binding.toolbarFragmentMovies.updatePadding(
+                top = systemBarInset.top,
+                left = systemBarInset.left,
+                right = systemBarInset.right
+            )
+            insets
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerViewMovies) { _, insets ->
+            val systemBarInset = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            binding.recyclerViewMovies.updatePadding(
+                bottom = systemBarInset.bottom,
+                right = systemBarInset.right,
+                left = systemBarInset.left
+            )
+            insets
+        }
     }
 }

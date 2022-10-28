@@ -3,8 +3,7 @@ package com.example.mykinopoisk.presentation.ui.note
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mykinopoisk.domain.model.note.Note
-import com.example.mykinopoisk.domain.usecase.note.DeleteNoteUseCase
-import com.example.mykinopoisk.domain.usecase.note.SubscribeUseCase
+import com.example.mykinopoisk.domain.repository.note.NoteLocalRepository
 import com.example.mykinopoisk.presentation.model.LceState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,8 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class NoteViewModel(
-    private val subscribeUseCase: SubscribeUseCase,
-    private val deleteNoteUseCase: DeleteNoteUseCase
+    private val noteLocalRepository: NoteLocalRepository
 ) : ViewModel() {
 
     private val _lceFlow = MutableStateFlow<LceState<Flow<List<Note>>>>(LceState.Loading)
@@ -21,14 +19,15 @@ class NoteViewModel(
 
     init {
         viewModelScope.launch {
-            subscribeUseCase.invoke().fold(
-                onSuccess = { _lceFlow.tryEmit(LceState.Success(it)) },
-                onFailure = { emptyList<Note>() }
+            val state = noteLocalRepository.subscribe().fold(
+                onSuccess = { LceState.Success(it) },
+                onFailure = { LceState.Fail(it) }
             )
+            _lceFlow.tryEmit(state)
         }
     }
 
     fun onNoteSwipe(note: Note) = viewModelScope.launch {
-        deleteNoteUseCase.invoke(note)
+        noteLocalRepository.deleteNote(note)
     }
 }

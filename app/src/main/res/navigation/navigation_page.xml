@@ -6,13 +6,18 @@
     app:startDestination="@id/fragment_movies">
 
     <fragment
+        android:id="@+id/fragment_google_map"
+        android:name="com.example.mykinopoisk.presentation.ui.map.GoogleMapFragment"
+        tools:layout="@layout/fragment_map" />
+
+    <fragment
         android:id="@+id/fragment_my_notes_movie"
         android:name="com.example.mykinopoisk.presentation.ui.note.NoteFragment"
         tools:layout="@layout/fragment_my_note_movie">
 
         <action
             android:id="@+id/to_add_note_fragment"
-            app:destination="@id/add_note"/>
+            app:destination="@id/add_note" />
     </fragment>
 
     <fragment
@@ -22,7 +27,7 @@
 
         <action
             android:id="@+id/to_detail_movie_fragment"
-            app:destination="@id/fragment_detail_movie"/>
+            app:destination="@id/fragment_detail_movie" />
     </fragment>
 
     <fragment
@@ -31,8 +36,8 @@
         tools:layout="@layout/fragment_favorites">
 
         <action
-            android:id="@+id/to_detail_movie_fragment"
-            app:destination="@id/fragment_detail_movie"/>
+            android:id="@+id/to_settings"
+            app:destination="@id/fragment_settings"/>
     </fragment>
 
     <fragment
@@ -42,7 +47,7 @@
 
         <argument
             android:name="id"
-            app:argType="long"/>
+            app:argType="long" />
     </fragment>
 
     <dialog
@@ -52,6 +57,16 @@
 
         <action
             android:id="@+id/to_note_movie_fragment"
-            app:destination="@id/fragment_my_notes_movie"/>
+            app:destination="@id/fragment_my_notes_movie" />
     </dialog>
+
+    <fragment
+        android:id="@+id/fragment_settings"
+        android:name="com.example.mykinopoisk.presentation.ui.setting.SettingsFragment"
+        tools:layout="@layout/fragment_settings">
+
+        <action
+            android:id="@+id/to_fragment_favorite"
+            app:destination="@id/fragment_favorites" />
+    </fragment>
 </navigation>

@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"
-        android:text="@string/make_note"
+        android:text="@string/new_note"
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold" />
@@ -27,7 +27,7 @@
             android:id="@+id/edit_text_movie_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Movie name"
+            android:hint="@string/title_make_note"
             android:inputType="text"
             android:lines="1" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -43,7 +43,7 @@
             android:id="@+id/edit_text_movie_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/movie_comment" />
+            android:hint="@string/comment_make_note" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button

@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:background="@color/color_red"
         app:title="@string/menu_toolbar_favorite"
-        app:titleTextColor="@color/white" />
+        app:titleTextColor="@color/white"
+        app:menu="@menu/menu_toolbar_setting"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

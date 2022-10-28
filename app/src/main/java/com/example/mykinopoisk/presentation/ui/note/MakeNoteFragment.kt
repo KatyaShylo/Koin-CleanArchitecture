@@ -52,8 +52,8 @@ class MakeNoteFragment : DialogFragment() {
 
                 if (containerMovieName.error != null || containerMovieComment.error != null) {
                     AlertDialog.Builder(requireContext())
-                        .setTitle(context?.resources?.getString(R.string.title_dialog_incorrect_entry))
-                        .setMessage(context?.resources?.getString(R.string.message_dialog_incorrect_entry))
+                        .setTitle(R.string.title_dialog_incorrect_entry)
+                        .setMessage(R.string.message_dialog_incorrect_entry)
                         .setPositiveButton(android.R.string.ok) { _, _ -> }
                         .show()
                 }
@@ -64,14 +64,14 @@ class MakeNoteFragment : DialogFragment() {
 
                     viewLifecycleOwner.lifecycleScope.launch {
                         viewModel.onButtonAddNote(
-                            Note(
+                           Note(
                                 nameMovie = noteNameMovie, comment = noteCommentMovie
                             )
                         )
                     }
 
                     AlertDialog.Builder(requireContext())
-                        .setTitle(context?.resources?.getString(R.string.title_dialog_successful))
+                        .setTitle(R.string.title_dialog_successful)
                         .setMessage(
                             editTextMovieComment.text.toString()
                         )
@@ -108,15 +108,19 @@ class MakeNoteFragment : DialogFragment() {
     ) {
         editText.doOnTextChanged { text, _, _, _ ->
             if (text != null) {
-                if (!text.matches("[a-zA-Zа-яА-Я0-9\\s\\p{P}\\p{S}]+".toRegex())) {
-                    textInputLayoutContainer.error = context?.resources?.getString(R.string.validator_error_not_null)
+                if (!text.matches(REGEX.toRegex())) {
+                    textInputLayoutContainer.error = requireContext().resources.getString(R.string.validator_error_not_null)
                 } else {
                     textInputLayoutContainer.error = null
                 }
             } else {
-                textInputLayoutContainer.error = context?.resources?.getString(R.string.validator_error_null)
+                textInputLayoutContainer.error = requireContext().resources.getString(R.string.validator_error_null)
             }
         }
+    }
+
+    companion object{
+        private const val REGEX = "[a-zA-Zа-яА-Я0-9\\s\\p{P}\\p{S}]+"
     }
 }
 

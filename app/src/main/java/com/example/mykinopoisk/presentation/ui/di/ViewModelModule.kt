@@ -5,6 +5,8 @@ import com.example.mykinopoisk.presentation.ui.movie.MovieDetailViewModel
 import com.example.mykinopoisk.presentation.ui.movie.MoviesViewModel
 import com.example.mykinopoisk.presentation.ui.note.MakeNoteViewModel
 import com.example.mykinopoisk.presentation.ui.note.NoteViewModel
+import com.example.mykinopoisk.presentation.ui.map.MapViewModel
+import com.example.mykinopoisk.presentation.ui.setting.SettingsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -14,4 +16,6 @@ val viewModelModule = module {
     viewModelOf(::FavoritesViewModel)
     viewModelOf(::MakeNoteViewModel)
     viewModelOf(::NoteViewModel)
+    viewModelOf(::MapViewModel)
+    viewModelOf(::SettingsViewModel)
 }

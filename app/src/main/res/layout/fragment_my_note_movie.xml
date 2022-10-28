@@ -7,11 +7,11 @@
     android:orientation="vertical">
 
     <Toolbar
-        android:id="@+id/toolbar_fragment_detail_movie"
+        android:id="@+id/toolbar_fragment_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_red"
-        android:title="@string/note_movie"
+        android:title="@string/menu_toolbar_note"
         android:titleTextColor="@color/white" />
 
     <Button
@@ -19,11 +19,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/add_note"
+        android:text="@string/button_add_note"
         android:textColor="@color/white" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_movies"
+        android:id="@+id/recycler_view_note"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"

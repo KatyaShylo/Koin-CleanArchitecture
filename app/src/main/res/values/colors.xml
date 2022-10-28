@@ -9,6 +9,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="color_card_view">#B4C5C4C4</color>
     <color name="color_rating">#AC6600</color>
-    <color name="color_red">#A30606</color>
+    <color name="color_red">#950606</color>
+    <color name="color_setting_title">#C5C5C5</color>
     <color name="color_card_view_movie">#CBE9E6E6</color>
+    <color name="color_dark_red">#430202</color>
 </resources>
