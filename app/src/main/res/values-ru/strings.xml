@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_bottom_movies">Кино</string>
+    <string name="menu_bottom_favorites">Избранные</string>
+    <string name="menu_toolbar_search">Поиск</string>
+    <string name="menu_bottom_map">Карта</string>
+    <string name="movie_information">Информация о фильме</string>
+    <string name="menu_toolbar_favorite">Избранные</string>
+    <string name="menu_toolbar_note">Заметки</string>
+    <string name="button_add_note">новая</string>
+    <string name="menu_bottom_note">Заметки</string>
+    <string name="new_note">Новая заметка</string>
+    <string name="title_make_note">Название</string>
+    <string name="comment_make_note">Комментарий</string>
+    <string name="validator_error_not_null">Используйте только буквы, цифры, знаки препинания.</string>
+    <string name="validator_error_null">Поле не может быть пустым.</string>
+    <string name="title_dialog_incorrect_entry">Неверный ввод данных</string>
+    <string name="message_dialog_incorrect_entry">Gроверьте введённые данные и повторите попытку.</string>
+    <string name="title_dialog_successful">Успешное добавление</string>
+    <string name="title_dialog_delete_note">Удаление</string>
+    <string name="message_dialog_delete">Вы уверены, что хотите удалить заметку?</string>
+    <string name="toast_text_delete">Заметка была удалена</string>
+    <string name="toast_text_not_delete">Заметка не удалена</string>
+    <string name="title_dialog_delete_favorite">Удаление</string>
+    <string name="toast_text_delete_favorite">Избранное удалено</string>
+    <string name="toast_text_not_delete_favorite">Избранное не удалено</string>
+    <string name="add_favorite">Сохранение</string>
+    <string name="add_message_favorite">Сохранить в избранное?</string>
+    <string name="title_population">Население:</string>
+    <string name="title_area">Площадь:</string>
+    <string name="menu_toolbar_setting">Настройки</string>
+    <string name="title_settings">Настройки</string>
+    <string name="night_mode_button_dark">Тёмная тема</string>
+    <string name="night_mode_button_light">Светлая тема</string>
+    <string name="night_mode_button_default">Системная тема</string>
+    <string name="night_mode_title">Тема</string>
+    <string name="language_title">Язык</string>
+    <string name="language_button_en">Английский</string>
+    <string name="language_button_ru">Русский</string>
+</resources>
