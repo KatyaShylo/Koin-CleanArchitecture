@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.mykinopoisk.domain.model.note.Note
 import com.example.mykinopoisk.domain.repository.note.NoteLocalRepository
 import com.example.mykinopoisk.presentation.model.LceState
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import com.example.mykinopoisk.presentation.ui.movie.MoviesViewModel
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class NoteViewModel(
@@ -29,5 +29,9 @@ class NoteViewModel(
 
     fun onNoteSwipe(note: Note) = viewModelScope.launch {
         noteLocalRepository.deleteNote(note)
+    }
+
+    fun onChangeData(note: Note) = viewModelScope.launch{
+        noteLocalRepository.update(note)
     }
 }

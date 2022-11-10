@@ -31,6 +31,10 @@ class MovieDetailViewModel(
         LceState.Loading
     )
 
+    fun onSend() {
+        movieDetailFlow
+    }
+
     companion object {
         private const val TOKEN = "PR0J8XR-XTCM5Y8-P3RHWPK-WYEKR6W"
         private const val FIELD_ID = "id"

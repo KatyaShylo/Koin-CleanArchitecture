@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_fragment_settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_red"
-        android:navigationIcon="@drawable/ic_baseline_arrow_back_24"
-        android:title="@string/title_settings"
-        android:titleTextColor="@color/white" />
+        app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+        app:title="@string/title_settings"
+        app:titleTextColor="@color/white" />
 
     <TextView
-        android:padding="16dp"
         android:id="@+id/title_settings_night_mode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:background="@color/color_setting_title"
+        android:padding="16dp"
         android:text="@string/night_mode_title"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -53,13 +54,13 @@
     </RadioGroup>
 
     <TextView
-        android:padding="16dp"
         android:id="@+id/title_settings_language"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:background="@color/color_setting_title"
+        android:padding="16dp"
         android:text="@string/language_title"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -85,6 +86,4 @@
             android:layout_height="wrap_content"
             android:text="@string/language_button_ru" />
     </RadioGroup>
-
-
 </LinearLayout>

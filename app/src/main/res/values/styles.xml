@@ -2,7 +2,7 @@
 <resources>
 
     <style name="ColoredTextStyle" parent="TextAppearance.AppCompat.Medium">
-        <item name="android:textColor">@color/color_dark_red</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:textStyle">italic</item>
     </style>
 

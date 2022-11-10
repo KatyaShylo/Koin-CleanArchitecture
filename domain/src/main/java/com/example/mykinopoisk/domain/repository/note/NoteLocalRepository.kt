@@ -8,6 +8,7 @@ interface NoteLocalRepository {
     suspend fun getAllNote(): List<Note>
 
     suspend fun insertNote(note: Note)
+    suspend fun update(note: Note)
 
     fun observeNote(): Flow<List<Note>>
 

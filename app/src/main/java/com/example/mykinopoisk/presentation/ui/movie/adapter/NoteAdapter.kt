@@ -9,14 +9,16 @@ import com.example.mykinopoisk.databinding.ItemNoteBinding
 import com.example.mykinopoisk.domain.model.note.Note
 
 class NoteAdapter(
-    context: Context
+    context: Context,
+    private val onLongItemClicked : (Note)-> Unit
 ) : ListAdapter<Note, NoteViewHolder>(DIFF_UTIL) {
 
     private val layoutInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         return NoteViewHolder(
-            binding = ItemNoteBinding.inflate(layoutInflater, parent, false)
+            binding = ItemNoteBinding.inflate(layoutInflater, parent, false),
+            onLongItemClicked = onLongItemClicked
         )
     }
 

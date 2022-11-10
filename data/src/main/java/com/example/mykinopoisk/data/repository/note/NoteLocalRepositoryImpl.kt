@@ -20,6 +20,10 @@ internal class NoteLocalRepositoryImpl(
         noteDao.insertNote(note.toEntityModel())
     }
 
+    override suspend fun update(note: Note) {
+        noteDao.update(note.toEntityModel())
+    }
+
     override fun observeNote(): Flow<List<Note>> {
         return noteDao.observeNote().map {
             it.map { noteEntity ->

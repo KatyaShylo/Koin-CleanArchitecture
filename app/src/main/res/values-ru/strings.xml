@@ -12,7 +12,6 @@
     <string name="new_note">Новая заметка</string>
     <string name="title_make_note">Название</string>
     <string name="comment_make_note">Комментарий</string>
-    <string name="validator_error_not_null">Используйте только буквы, цифры, знаки препинания.</string>
     <string name="validator_error_null">Поле не может быть пустым.</string>
     <string name="title_dialog_incorrect_entry">Неверный ввод данных</string>
     <string name="message_dialog_incorrect_entry">Gроверьте введённые данные и повторите попытку.</string>
@@ -37,4 +36,7 @@
     <string name="language_title">Язык</string>
     <string name="language_button_en">Английский</string>
     <string name="language_button_ru">Русский</string>
+    <string name="text_no_notes">Нет заметок</string>
+    <string name="title_dialog">Редактирование заметки</string>
+    <string name="toast_successfull">Заметка успешно изменена</string>
 </resources>

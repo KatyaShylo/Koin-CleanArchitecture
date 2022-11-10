@@ -1,5 +1,6 @@
 package com.example.mykinopoisk.presentation.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
@@ -8,6 +9,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.example.mykinopoisk.R
+import com.example.mykinopoisk.R.color.color_red
 import com.example.mykinopoisk.domain.model.settings.NightMode
 import com.example.mykinopoisk.domain.service.LanguageService
 import com.example.mykinopoisk.domain.service.NightModeService
@@ -22,6 +24,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(newBase.applySelectedAppLanguage(languageService.language))
     }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

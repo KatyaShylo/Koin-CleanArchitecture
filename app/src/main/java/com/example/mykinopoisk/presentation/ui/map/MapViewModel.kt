@@ -1,5 +1,6 @@
 package com.example.mykinopoisk.presentation.ui.map
 
+import android.location.Location
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mykinopoisk.domain.model.map.Country

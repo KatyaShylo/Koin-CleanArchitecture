@@ -14,7 +14,6 @@
     <string name="new_note">Make note</string>
     <string name="title_make_note">Title</string>
     <string name="comment_make_note">Comment</string>
-    <string name="validator_error_not_null">Use only letters, numbers, punctuation marks.</string>
     <string name="validator_error_null">The field cannot be empty.</string>
     <string name="title_dialog_incorrect_entry">Incorrect data entry</string>
     <string name="message_dialog_incorrect_entry">Check the entered data and try again.</string>
@@ -39,4 +38,7 @@
     <string name="language_title">Language</string>
     <string name="language_button_en">English</string>
     <string name="language_button_ru">Russian</string>
+    <string name="text_no_notes">No notes</string>
+    <string name="title_dialog">Editing note</string>
+    <string name="toast_successfull">Note successfully change</string>
 </resources>

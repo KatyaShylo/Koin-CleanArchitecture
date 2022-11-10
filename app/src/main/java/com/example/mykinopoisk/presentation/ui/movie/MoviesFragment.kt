@@ -2,22 +2,21 @@ package com.example.mykinopoisk.presentation.ui.movie
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.mykinopoisk.R
 import com.example.mykinopoisk.databinding.FragmentMoviesBinding
 import com.example.mykinopoisk.domain.model.favorite.Favorite
@@ -25,17 +24,21 @@ import com.example.mykinopoisk.presentation.model.LceState
 import com.example.mykinopoisk.presentation.ui.movie.adapter.MovieAdapter
 import com.example.mykinopoisk.presentation.ui.extension.SwipeElement
 import com.example.mykinopoisk.presentation.ui.extension.addHorizontalSpaceDecoration
+import com.example.mykinopoisk.presentation.ui.extension.createWindowInsetsForRecycleView
+import com.example.mykinopoisk.presentation.ui.extension.createWindowInsetsForToolbar
+import com.example.mykinopoisk.presentation.ui.movie.adapter.MovieViewHolder
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MoviesFragment : Fragment() {
 
     private var _binding: FragmentMoviesBinding? = null
     private val binding get() = requireNotNull(_binding)
 
-    private val viewModel by inject<MoviesViewModel>()
+    private val viewModel by viewModel<MoviesViewModel>()
 
     private val adapter by lazy {
         MovieAdapter(requireContext())
@@ -58,12 +61,18 @@ class MoviesFragment : Fragment() {
             .root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
+            toolbarFragmentMovies.createWindowInsetsForToolbar()
+            recyclerViewMovies.createWindowInsetsForRecycleView()
+
             recyclerViewMovies.adapter = adapter
             recyclerViewMovies.addHorizontalSpaceDecoration(R.dimen.space_horizontal_decorator)
+
+            viewModel.onRefreshed()
 
             with(toolbarFragmentMovies) {
                 menu.findItem(R.id.search)
@@ -79,6 +88,7 @@ class MoviesFragment : Fragment() {
                     })
             }
 
+
             swipeRecyclerView.setOnRefreshListener {
                 adapter.submitList(emptyList())
                 viewModel.onRefreshed()
@@ -86,7 +96,7 @@ class MoviesFragment : Fragment() {
 
             viewModel.dataFlow
                 .flowWithLifecycle(viewLifecycleOwner.lifecycle)
-                .onEach { swipeRecyclerView.isRefreshing }
+                .onEach { swipeRecyclerView.isRefreshing = false }
                 .onEach { lceState ->
                     lceState.map { lce ->
                         when (lce) {
@@ -110,9 +120,11 @@ class MoviesFragment : Fragment() {
                 }.launchIn(viewLifecycleOwner.lifecycleScope)
 
             val swipeToFavorite = object : SwipeElement() {
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
+
                     val position = viewHolder.adapterPosition
                     val movieToFavorite = adapter.currentList[position]
+
                     viewLifecycleOwner.lifecycleScope.launch {
                         AlertDialog.Builder(requireContext())
                             .setTitle(context?.resources?.getString(R.string.add_favorite))
@@ -141,33 +153,13 @@ class MoviesFragment : Fragment() {
             }
             ItemTouchHelper(swipeToFavorite).attachToRecyclerView(recyclerViewMovies)
         }
-        createWindowInsets()
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    private fun createWindowInsets() {
-        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbarFragmentMovies) { _, insets ->
-            val systemBarInset = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            binding.toolbarFragmentMovies.updatePadding(
-                top = systemBarInset.top,
-                left = systemBarInset.left,
-                right = systemBarInset.right
-            )
-            insets
-        }
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerViewMovies) { _, insets ->
-            val systemBarInset = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            binding.recyclerViewMovies.updatePadding(
-                bottom = systemBarInset.bottom,
-                right = systemBarInset.right,
-                left = systemBarInset.left
-            )
-            insets
-        }
-    }
 }

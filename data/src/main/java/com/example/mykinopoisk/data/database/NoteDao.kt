@@ -23,4 +23,7 @@ internal interface  NoteDao {
     @Query("SELECT * FROM noteentity")
     fun subscribe(): Flow<List<NoteEntity>>
 
+    @Update
+    suspend fun update(note: NoteEntity)
+
 }

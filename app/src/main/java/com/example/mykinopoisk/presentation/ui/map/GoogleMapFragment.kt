@@ -7,18 +7,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.example.mykinopoisk.R
 import com.example.mykinopoisk.databinding.FragmentMapBinding
+import com.example.mykinopoisk.presentation.ui.extension.createWindowInsetsForGoogleMap
+import com.example.mykinopoisk.presentation.ui.extension.doOnApplyWindowInsets
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.LocationSource
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.launchIn
@@ -78,9 +83,13 @@ class GoogleMapFragment : Fragment() {
         permissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
 
         with(binding) {
-            googleMapView.getMapAsync { map ->
-                googleMap = map.apply {
 
+            googleMapView.createWindowInsetsForGoogleMap()
+
+
+            googleMapView.getMapAsync { map ->
+
+                googleMap = map.apply {
                     uiSettings.isCompassEnabled = true
                     uiSettings.isZoomControlsEnabled = true
                     uiSettings.isMyLocationButtonEnabled = true
@@ -116,6 +125,7 @@ class GoogleMapFragment : Fragment() {
                         countries.forEach { country ->
                             map.addMarker(
                                 MarkerOptions()
+                                    .title(country.name.toString())
                                     .position(LatLng(country.latitude, country.longitude))
                             )
                         }
@@ -140,7 +150,6 @@ class GoogleMapFragment : Fragment() {
             }
             googleMapView.onCreate(savedInstanceState)
         }
-        createWindowInsets()
     }
 
     override fun onResume() {
@@ -151,6 +160,16 @@ class GoogleMapFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         binding.googleMapView.onPause()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.googleMapView.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        binding.googleMapView.onStop()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -178,13 +197,4 @@ class GoogleMapFragment : Fragment() {
         ) == PackageManager.PERMISSION_GRANTED
     }
 
-    private fun createWindowInsets() {
-        ViewCompat.setOnApplyWindowInsetsListener(binding.googleMapView) { _, insets ->
-
-            val statusBarInset = insets.getInsets(WindowInsetsCompat.Type.statusBars())
-            binding.googleMapView.updatePadding(
-               top = statusBarInset.top
-            )
-            insets
-        }
-    }}
+}

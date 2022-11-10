@@ -14,6 +14,7 @@ import com.example.mykinopoisk.R
 import com.example.mykinopoisk.databinding.FragmentSettingsBinding
 import com.example.mykinopoisk.domain.model.settings.Language
 import com.example.mykinopoisk.domain.model.settings.NightMode
+import com.example.mykinopoisk.presentation.ui.extension.createWindowInsetsForToolbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsFragment : Fragment() {
@@ -37,11 +38,11 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
+            toolbarFragmentSettings.createWindowInsetsForToolbar()
 
             toolbarFragmentSettings.setNavigationOnClickListener {
                 findNavController().navigate(R.id.fragment_favorites)
             }
-
 
             when (viewModel.selectedNightMode) {
                 NightMode.SYSTEM -> buttonSystemMode
@@ -78,24 +79,10 @@ class SettingsFragment : Fragment() {
                 activity?.recreate()
             }
         }
-
-        createWindowInsets()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun createWindowInsets() {
-        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbarFragmentSettings) { _, insets ->
-            val systemBarInset = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            binding.toolbarFragmentSettings.updatePadding(
-                top = systemBarInset.top,
-                left = systemBarInset.left,
-                right = systemBarInset.right
-            )
-            insets
-        }
     }
 }

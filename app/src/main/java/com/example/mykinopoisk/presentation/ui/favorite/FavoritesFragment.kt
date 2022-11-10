@@ -22,6 +22,8 @@ import com.example.mykinopoisk.domain.model.favorite.Favorite
 import com.example.mykinopoisk.presentation.model.LceState
 import com.example.mykinopoisk.presentation.ui.extension.SwipeElement
 import com.example.mykinopoisk.presentation.ui.extension.addHorizontalSpaceDecoration
+import com.example.mykinopoisk.presentation.ui.extension.createWindowInsetsForRecycleView
+import com.example.mykinopoisk.presentation.ui.extension.createWindowInsetsForToolbar
 import com.example.mykinopoisk.presentation.ui.movie.adapter.FavoriteAdapter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -54,6 +56,9 @@ class FavoritesFragment : Fragment() {
 
         with(binding) {
 
+            toolbarFragmentFavorite.createWindowInsetsForToolbar()
+            recyclerViewMovies.createWindowInsetsForRecycleView()
+
             toolbarFragmentFavorite.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.setting -> findNavController().navigate(R.id.fragment_settings)
@@ -75,7 +80,7 @@ class FavoritesFragment : Fragment() {
                         }
                         is LceState.Success -> {
                             loading.isVisible = false
-                            swipeRecyclerViewFavorite.isVisible = true
+                            recyclerViewMovies.isVisible = true
                             lce.data.collect {
                                 adapter.submitList(it)
                             }
@@ -98,7 +103,7 @@ class FavoritesFragment : Fragment() {
             }
             ItemTouchHelper(swipeToDeleteCallback).attachToRecyclerView(binding.recyclerViewMovies)
         }
-        createWindowInsets()
+
     }
 
     override fun onDestroyView() {
@@ -130,25 +135,5 @@ class FavoritesFragment : Fragment() {
             .show()
     }
 
-    private fun createWindowInsets() {
-        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbarFragmentFavorite) { _, insets ->
-            val systemBarInset = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            binding.toolbarFragmentFavorite.updatePadding(
-                top = systemBarInset.top,
-                left = systemBarInset.left,
-                right = systemBarInset.right
-            )
-            insets
-        }
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerViewMovies) { _, insets ->
-            val systemBarInset = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            binding.recyclerViewMovies.updatePadding(
-                bottom = systemBarInset.bottom,
-                right = systemBarInset.right,
-                left = systemBarInset.left
-            )
-            insets
-        }
-    }
 }

@@ -71,6 +71,7 @@ class MoviesViewModel(
 
     fun onSwipeMovie(favorite: Favorite) =
         viewModelScope.launch {
+
             favoriteLocalRepository.insertFavorite(favorite)
         }
 

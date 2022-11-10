@@ -23,7 +23,8 @@ class MovieAdapter(
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val position = getItem(position)
+        holder.bind(position)
     }
 
     companion object {
